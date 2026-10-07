@@ -1,5 +1,6 @@
 work/
+build/
 *.fst
+*.fst.hier
 *.vcd
 .DS_Store
-*.fst.hier
