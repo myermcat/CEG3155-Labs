@@ -11,8 +11,8 @@ END LMASK;
 
 ARCHITECTURE rtl OF LMASK IS -- internal signals
   SIGNAL int_Value, int_notValue : STD_LOGIC_VECTOR (7 downto 0);
-  SIGNAL a : STD_LOGIC;
-  SIGNAL b : STD_LOGIC_VECTOR (7 downto 0);
+  SIGNAL a : STD_LOGIC; -- i_enable for the whole register
+  SIGNAL b : STD_LOGIC_VECTOR (7 downto 0); -- i_value per ff
   CONSTANT i_const : STD_LOGIC_VECTOR (7 downto 0) := "00000001";
 
   COMPONENT dff
