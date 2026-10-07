@@ -26,8 +26,9 @@ begin
     -- subtract
     ain <= "0010"; bin <= "0001"; subSelect <= '1'; wait for 20 ns;
     ain <= "0110"; bin <= "0101"; subSelect <= '1'; wait for 20 ns;
-    ain <= "0010"; bin <= "0001"; subSelect <= '1'; wait for 20 ns;
+    ain <= "1001"; bin <= "0001"; subSelect <= '1'; wait for 20 ns;
     ain <= "0110"; bin <= "0011"; subSelect <= '1'; wait for 20 ns;
+    ain <= "1110"; bin <= "1110"; subSelect <= '1'; wait for 20 ns;
 
     wait;
   end process;
