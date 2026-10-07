@@ -3,16 +3,15 @@ USE ieee.std_logic_1164.ALL;
 
 ENTITY adderSubtractor IS
   PORT(
-    a, b: in std_logic_vector (3 downto 0);
-    s: out std_logic_vector (3 downto 0);
-    cin: in std_logic;
+    a_in, b_in: in std_logic_vector (3 downto 0);
+    s_out: out std_logic_vector (3 downto 0);
     cout: out std_logic;
     overflow: out std_logic;
     subSelect: in std_logic); -- adding or subtracting?
 END adderSubtractor;
 
 ARCHITECTURE rtl OF adderSubtractor IS  
---signal c: std_logic_vector (4 downto 0); -- internal cout
+signal b_after_xor: std_logic_vector (3 downto 0);
 
   component rippleCarryAdder
     port(a, b: in std_logic_vector (3 downto 0);
@@ -22,45 +21,17 @@ ARCHITECTURE rtl OF adderSubtractor IS
           overflow: out std_logic);
   end component;
 BEGIN
+  b_after_xor(0) <= b_in(0) xor subSelect;
+  b_after_xor(1) <= b_in(1) xor subSelect;
+  b_after_xor(2) <= b_in(2) xor subSelect;
+  b_after_xor(3) <= b_in(3) xor subSelect;
 
-  overflow <= overflow;
-  cout <= cout;
-  s <= internal_s;
-
-  FAbit3: fullAdder
-    port map(ain => a(3),
-              bin => b(3),
-              cin => c(3),
-              si => internal_s(3), -- we put si into s(3)
-              pi => OPEN,
-              gi => OPEN,
-              cout => c(4));
-
-  FAbit2: fullAdder
-    port map(ain => a(2),
-              bin => b(2),
-              cin => c(2),
-              si => internal_s(2),
-              pi => OPEN,
-              gi => OPEN,
-              cout => c(3));
-
-  FAbit1: fullAdder
-    port map(ain => a(1),
-              bin => b(1),
-              cin => c(1),
-              si => internal_s(1),
-              pi => OPEN,
-              gi => OPEN,
-              cout => c(2));
-
-  FAbit0: fullAdder
-    port map( ain => a(0),
-              bin => b(0),
-              cin => c(0), -- c(0) we get from cin of the whole adder
-              si => internal_s(0),
-              pi => OPEN,
-              gi => OPEN,
-              cout => c(1));
+  fourBitAdder: rippleCarryAdder
+    port map(a => a_in,
+              b => b_after_xor,
+              s => s_out,
+              cin => subSelect,
+              cout => cout,
+              overflow => overflow);
 
 END rtl;
