@@ -1,0 +1,49 @@
+What the divider needs, read off the pseudocode in "Lab2 practice.docx".
+
+REGISTERS  (rule 5, one per name on the left of a transfer)
+
+  A               4 bits   dividend, flipped positive in s2
+  B               4 bits   divisor, flipped positive in s3
+  S               8 bits   S(7..4) remainder, S(3..0) quotient
+                           needs: load high, load low, shift left,
+                           and a way to write S(0) on its own in s7 and s8
+  i               3 bits   counts 4 passes, decremented in s9
+  SA, SB          1 bit    the two signs, captured in s1 before the flips
+  Divide_by_zero  1 bit    set in s4
+
+DEVICES
+
+  adderSubtractor   the 4 bit one from the pre-lab. Every piece of arithmetic
+                    here is 4 bits: the negates in s2, s3, s10 and s11, and
+                    the subtract in s7. No 8 bit unit needed, unlike the
+                    multiplier.
+  comparator4       for c3, S(7..4) >= B.  Built from comparator1.
+  zero detect on B  for c2.  A NOR across the four bits.
+  zero detect on i  for c4, i > 1.
+  multiplexers      wherever two paths reach one register input, by rule 7.
+
+SHARED WITH THE MULTIPLIER, do not write these twice
+
+  dff, dffset               in ../../lab1/src/atoms/
+  fullAdder                 in ../prelab-adder-subtractor/
+  rippleCarryAdder          in ../prelab-adder-subtractor/
+  adderSubtractor  4 bit    in ../prelab-adder-subtractor/
+  muxOut           4 way    in ../../lab1/src/datapath-blocks/, reusable as is
+
+FILES HERE
+
+  divider.vhd           top, currently a stub driving zeros so the ALU
+                        elaborates without it. Replace the architecture only.
+  dividerDatapath.vhd   registers and their connections
+  dividerControl.vhd    twelve flip flops, s0 on dffset, the rest on dff
+  comparator1.vhd       atomic, behavioural
+  comparator4.vhd       structural, four comparator1 instances
+
+TWO THINGS TO SETTLE BEFORE WRITING THE DATAPATH
+
+  c5 in the pseudocode is a condition box that both branches leave without
+  doing anything, and s10 is reached from it as well as from c4. Check the
+  transitions there against the chart.
+
+  Dividing the most negative value by minus one gives a quotient that does not
+  fit in four signed bits. Decide what the circuit does in that case.
