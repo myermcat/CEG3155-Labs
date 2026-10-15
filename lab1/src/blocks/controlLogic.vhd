@@ -20,7 +20,7 @@ ARCHITECTURE struct OF controlLogic IS
   SIGNAL int_d : STD_LOGIC_VECTOR (4 downto 0);   -- their D inputs
 BEGIN
 
-  -- transition equations, read off the AND gates on the control logic drawing
+  -- D inputs. each one is just a decode of the two switches
   int_d(0) <= '0';                              -- s0 is entered only by reset
   int_d(1) <= i_Left and i_Right;               -- both
   int_d(2) <= i_Left and not(i_Right);          -- left only
@@ -68,7 +68,7 @@ BEGIN
                o_q        => int_s(4),
                o_qBar     => OPEN );
 
-  -- output decode, read off the OR gates on the drawing
+  -- outputs. a signal is on in every state that asserts it, so these are ORs
   o_loadA   <= int_s(0);
   o_loadB   <= int_s(0);
   o_shiftA  <= int_s(1) or int_s(2);

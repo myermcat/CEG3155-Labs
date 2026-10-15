@@ -36,9 +36,8 @@ BEGIN
 
 END rtl;
 
--- The bonus of section 6.1. Same entity, same ports, same exclusive OR row.
--- The only change is which adder is instantiated, so nothing above this file
--- moves: the ALU picks the configuration it wants with
+-- the bonus version. same entity, same ports, same xor row.
+-- only the adder inside changes, so nothing above this file moves. pick with
 --   ENTITY work.adderSubtractor(rtl)    the laboratory, ripple carry
 --   ENTITY work.adderSubtractor(bonus)  the bonus, carry lookahead
 ARCHITECTURE bonus OF adderSubtractor IS

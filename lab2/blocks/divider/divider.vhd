@@ -1,8 +1,8 @@
--- Signed divider, laboratory 2.
--- Stub. Drives zeros so the ALU above it elaborates and simulates while the
--- real design is being written. Replace the architecture, not the entity.
+-- signed divider.
+-- placeholder for now: drives zeros so the ALU above still elaborates and
+-- simulates while the real one is being written. only the architecture changes.
 --
--- S(7..4) is the remainder, S(3..0) is the quotient, matching the pseudocode.
+-- S(7..4) is the remainder, S(3..0) is the quotient.
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
