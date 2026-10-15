@@ -1,6 +1,5 @@
--- One bit comparator. An atomic module, named as one in section 8 of the
--- handout alongside the D flip flop and the one bit adder, so it is written
--- behaviourally.
+-- one bit comparator. atomic, like dff and fullAdder, so it is behavioural
+-- (nothing underneath it to instantiate)
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;

@@ -29,7 +29,82 @@ architecture struct of multControl is
         port map(
             i_resetBar => i_resetBar,
             i_d => int_d(0),
-            i_enable => ??,
+            i_enable => '1',
             i_clock => i_clock,
             o_q => int_s(0),
             o_qBar => open );
+
+    state1: entity work.dff(rtl)
+        port map(
+            i_resetBar => i_resetBar,
+            i_d => int_d(1),
+            i_enable => '1',
+            i_clock => i_clock,
+            o_q => int_s(0),
+            o_qBar => open );
+
+    flipA: entity work.dff(rtl)
+        port map(
+            i_resetBar => i_resetBar,
+            i_d => int_d(2),
+            i_enable => '1',
+            i_clock => i_clock,
+            o_q => int_s(0),
+            o_qBar => open );
+
+    flipB: entity work.dff(rtl)
+        port map(
+            i_resetBar => i_resetBar,
+            i_d => int_d(3),
+            i_enable => '1',
+            i_clock => i_clock,
+            o_q => int_s(0),
+            o_qBar => open );
+
+    s2: entity work.dff(rtl)
+        port map(
+            i_resetBar => i_resetBar,
+            i_d => int_d(4),
+            i_enable => '1',
+            i_clock => i_clock,
+            o_q => int_s(0),
+            o_qBar => open );
+
+    s3: entity work.dff(rtl)
+        port map(
+            i_resetBar => i_resetBar,
+            i_d => int_d(5),
+            i_enable => '1',
+            i_clock => i_clock,
+            o_q => int_s(0),
+            o_qBar => open );
+
+    s4: entity work.dff(rtl)
+        port map(
+            i_resetBar => i_resetBar,
+            i_d => int_d(6),
+            i_enable => '1',
+            i_clock => i_clock,
+            o_q => int_s(0),
+            o_qBar => open );
+
+
+-- output decode
+o_loadSlow = 
+o_loadShigh = 
+o_selSlow = 
+o_selShigh = 
+o_subSel = 
+o_selAddY = 
+o_loadA = int_s(0)
+
+o_selA = int_s(0);
+o_loadCount = int_s(0);
+o_resetAxorB = int_s(0);
+o_loadAxorB = int_s(1);
+o_selAddX = int_s(4);
+o_shiftSright = int_s(5);
+o_decrCount = int_s(5);
+ 
+
+end struct;

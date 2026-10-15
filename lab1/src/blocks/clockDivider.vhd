@@ -9,7 +9,7 @@
 --      configuration time, which is true on the board but not in a simulator,
 --      where the counters stay at U and no output ever moves.
 --   3. The first stage divide ratio becomes the constant firstStage, so that
---      it can be shrunk for simulation as section 5.5 of the laboratory asks,
+--      it can be shrunk for simulation without touching the entity,
 --      without editing the entity.
 --
 -- The original copyright notice below applies to the code itself.
