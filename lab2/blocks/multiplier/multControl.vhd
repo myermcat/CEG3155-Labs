@@ -7,12 +7,13 @@ entity multControl is
         i_clock : in std_logic;
 
 
-    )
+    );
 end multControl;
 
 architecture struct of multControl is
     signal int_s : std_logic_vector(6 downto 0); -- one hot state
     signal int_d : std_logic_vector(6 downto 0); -- their d inputs
+begin
 
     -- equations how to get to each state
     int_d(0) <= 
@@ -90,21 +91,21 @@ architecture struct of multControl is
 
 
 -- output decode
-o_loadSlow = 
-o_loadShigh = 
-o_selSlow = 
-o_selShigh = 
-o_subSel = 
-o_selAddY = 
-o_loadA = int_s(0)
+o_loadSlow <= int_s(0) or int_s(3) or int_s(6);
+o_loadShigh <= int_s(0) or int_s(2) or int_s(6);
+o_selSlow <= int_s(3) or int_s(6);
+o_selShigh <= int_s(2) or int_s(6);
+o_subSel <= int_s(2) or int_s(3) or int_s(6);
+o_selAddY <= int_s(3) or int_s(6);
+o_loadA <= int_s(0) or int_s(2);
 
-o_selA = int_s(0);
-o_loadCount = int_s(0);
-o_resetAxorB = int_s(0);
-o_loadAxorB = int_s(1);
-o_selAddX = int_s(4);
-o_shiftSright = int_s(5);
-o_decrCount = int_s(5);
+o_selA <= int_s(0);
+o_loadCount <= int_s(0);
+o_resetAxorB <= int_s(0);
+o_loadAxorB <= int_s(1);
+o_selAddX <= int_s(4);
+o_shiftSright <= int_s(5);
+o_decrCount <= int_s(5);
  
 
 end struct;
