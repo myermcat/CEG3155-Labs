@@ -5,7 +5,7 @@ entity multControl is
     port(
         i_resetBar : in std_logic;
         i_clock : in std_logic;
-        i_A3, i_AxorB, i_count0, i_count1, i_S3, i_S0, i_S1: in std_logic;
+        i_A3, i_AxorB, i_count1, i_S3, i_S0, i_S1: in std_logic;
         o_loadSlow, o_loadShigh, o_selSlow, 
         o_selShigh, o_subSel, o_selAddY, o_loadA: out std_logic;
         o_selA, o_loadCount, o_resetAxorB, 

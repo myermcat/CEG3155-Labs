@@ -14,7 +14,7 @@ ARCHITECTURE sim OF multDatapath_tb IS
   SIGNAL selA, loadA, selShigh, loadShigh, selSlow, loadSlow : STD_LOGIC := '0';
   SIGNAL shiftSright, loadCount, decrCount                   : STD_LOGIC := '0';
   SIGNAL loadAxorB, resetAxorB, selAddX, selAddY, subSel     : STD_LOGIC := '0';
-  SIGNAL A3, S3, S0, S1, count0, count1, AxorB : STD_LOGIC;
+  SIGNAL A3, S3, S0, S1, count1, AxorB : STD_LOGIC;
   SIGNAL S : STD_LOGIC_VECTOR (7 downto 0);
   SIGNAL done : BOOLEAN := false;
 BEGIN
@@ -30,7 +30,7 @@ BEGIN
                i_loadAxorB => loadAxorB, i_resetAxorB => resetAxorB,
                i_selAddX => selAddX, i_selAddY => selAddY, i_subSel => subSel,
                o_A3 => A3, o_S3 => S3, o_S0 => S0, o_S1 => S1,
-               o_count0 => count0, o_count1 => count1, o_AxorB => AxorB, o_S => S );
+               o_count1 => count1, o_AxorB => AxorB, o_S => S );
 
   clock <= not clock after 10 ns when not done else '0';
 

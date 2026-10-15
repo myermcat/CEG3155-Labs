@@ -21,7 +21,7 @@ ARCHITECTURE struct OF multiplier IS
   SIGNAL loadAxorB, resetAxorB, selAddX, selAddY, subSel     : STD_LOGIC;
 
   -- datapath back to control
-  SIGNAL A3, S3, S0, S1, count0, count1, AxorB : STD_LOGIC;
+  SIGNAL A3, S3, S0, S1, count1, AxorB : STD_LOGIC;
 
   COMPONENT multDatapath
     PORT( i_resetBar, i_clock : IN STD_LOGIC;
@@ -29,13 +29,13 @@ ARCHITECTURE struct OF multiplier IS
           i_selA, i_loadA, i_selShigh, i_loadShigh, i_selSlow, i_loadSlow : IN STD_LOGIC;
           i_shiftSright, i_loadCount, i_decrCount : IN STD_LOGIC;
           i_loadAxorB, i_resetAxorB, i_selAddX, i_selAddY, i_subSel : IN STD_LOGIC;
-          o_A3, o_S3, o_S0, o_S1, o_count0, o_count1, o_AxorB : OUT STD_LOGIC;
+          o_A3, o_S3, o_S0, o_S1, o_count1, o_AxorB : OUT STD_LOGIC;
           o_S : OUT STD_LOGIC_VECTOR (7 downto 0));
   END COMPONENT;
 
   COMPONENT multControl
     PORT( i_resetBar, i_clock : IN STD_LOGIC;
-          i_A3, i_S3, i_S0, i_S1, i_count0, i_count1, i_AxorB : IN STD_LOGIC;
+          i_A3, i_S3, i_S0, i_S1, i_count1, i_AxorB : IN STD_LOGIC;
           o_selA, o_loadA, o_selShigh, o_loadShigh, o_selSlow, o_loadSlow : OUT STD_LOGIC;
           o_shiftSright, o_loadCount, o_decrCount : OUT STD_LOGIC;
           o_loadAxorB, o_resetAxorB, o_selAddX, o_selAddY, o_subSel : OUT STD_LOGIC);
@@ -54,13 +54,13 @@ BEGIN
                i_loadAxorB => loadAxorB, i_resetAxorB => resetAxorB,
                i_selAddX => selAddX, i_selAddY => selAddY, i_subSel => subSel,
                o_A3 => A3, o_S3 => S3, o_S0 => S0, o_S1 => S1,
-               o_count0 => count0, o_count1 => count1, o_AxorB => AxorB,
+               o_count1 => count1, o_AxorB => AxorB,
                o_S => o_S );
 
   control: multControl
     PORT MAP ( i_resetBar => i_resetBar, i_clock => i_clock,
                i_A3 => A3, i_S3 => S3, i_S0 => S0, i_S1 => S1,
-               i_count0 => count0, i_count1 => count1, i_AxorB => AxorB,
+               i_count1 => count1, i_AxorB => AxorB,
                o_selA => selA, o_loadA => loadA,
                o_selShigh => selShigh, o_loadShigh => loadShigh,
                o_selSlow => selSlow, o_loadSlow => loadSlow,
