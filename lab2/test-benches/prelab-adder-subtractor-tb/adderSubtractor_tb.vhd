@@ -11,7 +11,7 @@ architecture sim of adderSubtractor_tb is
   signal subSelect: std_logic; 
 
 begin
-  dut : entity work.adderSubtractor 
+  dut : entity work.adderSubtractor(rtl)
     port map (ain, bin, s_out, cout, overflow, subSelect); -- order of how theyre declared in the entity, not architecture HERE!
 
   stimulus : process
