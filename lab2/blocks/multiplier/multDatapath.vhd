@@ -8,7 +8,7 @@ ENTITY multDatapath IS
     i_selA, i_loadA, i_selShigh, i_loadShigh, i_selSlow, i_loadSlow : IN STD_LOGIC;
     i_shiftSright, i_loadCount, i_decrCount : IN STD_LOGIC;
     i_loadAxorB, i_resetAxorB, i_selAddX, i_selAddY, i_subSel : IN STD_LOGIC;
-    o_A3, o_S3, o_S0, o_S1, o_count0, o_count1, o_AxorB : OUT STD_LOGIC;
+    o_A3, o_S3, o_S0, o_S1, o_count1, o_AxorB : OUT STD_LOGIC;
     o_S : OUT STD_LOGIC_VECTOR (7 downto 0));
 END multDatapath;
 
@@ -84,7 +84,7 @@ BEGIN
   o_S0     <= S(0);
   -- the bit and the count the loop will see after the shift in s3
   o_S1     <= S(1);
-  o_count0 <= not(count(2) or count(1) or count(0));
+  -- the last pass, since the test that leaves s3 runs before the decrement
   o_count1 <= count(0) and not(count(1)) and not(count(2));
   o_AxorB  <= AxorB;
   o_S      <= S;
