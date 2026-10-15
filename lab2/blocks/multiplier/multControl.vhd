@@ -5,9 +5,11 @@ entity multControl is
     port(
         i_resetBar : in std_logic;
         i_clock : in std_logic;
-
-
-    );
+        i_A3, i_AxorB, i_count0, i_S3, i_S0: in std_logic;
+        o_loadSlow, o_loadShigh, o_selSlow, 
+        o_selShigh, o_subSel, o_selAddY, o_loadA: out std_logic;
+        o_selA, o_loadCount, o_resetAxorB, 
+        o_loadAxorB, o_selAddX, o_shiftSright, o_decrCount: out std_logic);
 end multControl;
 
 architecture struct of multControl is
@@ -16,9 +18,9 @@ architecture struct of multControl is
 begin
 
     -- equations how to get to each state
-    int_d(0) <= 
-    int_d(1) <=
-    int_d(2) <=
+    int_d(0) <= int_s(6) or (not(i_AxorB) and i_count0 and )
+    int_d(1) <= int_s(0);
+    int_d(2) <= int_s(1) and i_A3;
     int_d(3) <=
     int_d(4) <=
     int_d(5) <=
@@ -26,7 +28,7 @@ begin
 
     -- 5 state flip flops, one per state
 
-    state0: entity work.dff(rtl)
+    state0: entity work.dffset(rtl)   -- the only one that resets to 1
         port map(
             i_resetBar => i_resetBar,
             i_d => int_d(0),
