@@ -39,6 +39,6 @@ BEGIN
                OR (selSSC AND i_sscMax(3))
                OR (selYC AND i_yc(3));
   
-END structrual;
+END structural;
 
 
