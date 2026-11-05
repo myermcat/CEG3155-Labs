@@ -15,5 +15,11 @@ END dff;
 
 ARCHITECTURE rtl OF dff IS
 BEGIN
+  process(i_resetBar, i_clock)
+  begin
+    if (i_resetBar) then 
+      o_q <= '0';
+
+    
 
 END rtl;
