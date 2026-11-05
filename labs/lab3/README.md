@@ -7,12 +7,15 @@ the counting block go in; `MSTL`, `SSTL` and `Select` come out.
 
 | Mariia | Kevin | Provided |
 |---|---|---|
-| `fsm/fsmControl.vhd` | `blocks/counting/countingBlock.vhd` | `blocks/provided/display_controller.vhd` |
-| `fsm/dff.vhd` | `blocks/counting/downCounter4.vhd` | debouncer |
-| `top-entity.vhd` | `blocks/counting/periodMux.vhd` | clock divider |
-| `Nexys-A7-100T-Master.xdc` | `blocks/change-detect/changeDetect.vhd` | |
-| | `blocks/display/bcdDecoder.vhd`, the bonus | |
-| | every testbench | |
+| `fsm/fsmControl.vhd` | `blocks/counting/downCounter4.vhd` | `blocks/provided/display_controller.vhd` |
+| `fsm/dff.vhd` | `blocks/counting/periodMux.vhd` | debouncer |
+| `blocks/counting/countingBlock.vhd` | `blocks/change-detect/changeDetect.vhd` | clock divider |
+| `top-entity.vhd` | `blocks/display/bcdDecoder.vhd`, the bonus | |
+| `Nexys-A7-100T-Master.xdc` | | |
+
+Each of us writes the testbenches for our own blocks. `dff` and `periodMux` get
+none, since the teaching assistant said a component that simple does not need
+one.
 
 All three provided cores are referenced in the report, which section 6 requires.
 
