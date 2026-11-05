@@ -13,13 +13,32 @@ ENTITY periodMux IS
     o_value   : OUT STD_LOGIC_VECTOR(3 downto 0));
 END periodMux;
 
-ARCHITECTURE rtl OF periodMux IS
+ARCHITECTURE structural OF periodMux IS
+    SIGNAL selMSC   : STD_LOGIC;
+    SIGNAL selSSC   : STD_LOGIC;
+    SIGNAL selYC : STD_LOGIC;
+
 BEGIN
-  WITH i_select SELECT
-    o_value <= i_mscMAX WHEN "00",
-               i_yc     WHEN "01",
-               i_sscMax WHEN "10",
-               i_yc     WHEN "11",
-               (OTHERS => '0') WHEN OTHERS;
-END rtl;
+  selMSC <= NOT i_select(1) AND NOT i_select(0);
+  selSSC <= i_select(1) AND NOT i_select(0);
+  selYC <= i_select(0);
+
+  o_value(0) <= (selMSC AND i_mscMax(0))
+               OR (selSSC AND i_sscMax(0))
+               OR (selYC AND i_yc(0));
+
+  o_value(1) <= (selMSC AND i_mscMax(1))
+               OR (selSSC AND i_sscMax(1))
+               OR (selYC AND i_yc(1));
+
+  o_value(2) <= (selMSC AND i_mscMax(2))
+               OR (selSSC AND i_sscMax(2))
+               OR (selYC AND i_yc(2));
+
+  o_value(3) <= (selMSC AND i_mscMax(3))
+               OR (selSSC AND i_sscMax(3))
+               OR (selYC AND i_yc(3));
+  
+END structrual;
+
 
