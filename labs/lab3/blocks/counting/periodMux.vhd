@@ -15,5 +15,11 @@ END periodMux;
 
 ARCHITECTURE rtl OF periodMux IS
 BEGIN
-
+  WITH i_select SELECT
+    o_value <= i_mscMAX WHEN "00",
+               i_yc     WHEN "01",
+               i_sscMax WHEN "10",
+               i_yc     WHEN "11",
+               (OTHERS => '0') WHEN OTHERS;
 END rtl;
+
