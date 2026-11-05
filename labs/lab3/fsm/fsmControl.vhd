@@ -31,7 +31,7 @@ ARCHITECTURE rtl OF fsmControl IS
 BEGIN
 
   Y2n <= (y2 and not(y1)) or (not(i_exp) and y2) or (i_exp and not(y2) and y1);
-Y1n <= (not(i_exp) and y1) or (i_exp and y2 and not(y1)) or (i_sscs and i_exp and not(y2) and not(y1));
+  Y1n <= (not(i_exp) and y1) or (i_exp and y2 and not(y1)) or (i_sscs and i_exp and not(y2) and not(y1));
 
 
   y2_dff: dff
