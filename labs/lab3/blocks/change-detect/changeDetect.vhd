@@ -54,6 +54,6 @@ BEGIN
 
   o_changed <= o_xor(0) OR o_xor(1);
 
-END structral;
+END structural;
 
 
