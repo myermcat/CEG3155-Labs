@@ -109,3 +109,57 @@ change of state.
 
 `Select` is the two state bits unchanged, so there are no gates between the flip
 flops and the multiplexer.
+
+## Mariia's blocks
+
+### `dff.vhd`
+
+One bit register, asynchronous active low reset, synchronous enable. The same
+block as Lab 1 and Lab 2, reused unchanged.
+
+### `fsmControl.vhd`
+
+Two `dff` instances for `y2` and `y1`, the next state gates in front of them
+and the output gates behind them.
+
+```
+Y2 = y2.y1' + EXP'.y2 + EXP.y2'.y1
+Y1 = EXP'.y1 + EXP.y2.y1' + SSCS.EXP.y2'.y1'
+
+MSTL(2) = y2        MSTL(1) = y2'.y1    MSTL(0) = y2'.y1'
+SSTL(2) = y2'       SSTL(1) = y2.y1     SSTL(0) = y2.y1'
+
+Select(1) = y2      Select(0) = y1
+```
+
+### `countingBlock.vhd`
+
+A wrapper around Kevin's two blocks plus two pieces of logic.
+
+- `periodMux` picks the period, `downCounter4` counts it down
+- `o_exp` is a NOR of the four count bits, so it is high at zero
+- the counter's enable is `o_exp'`, which holds it at zero once it gets there
+- `i_reload` drives the counter's load
+- `o_count` goes out to the BCD decoder for the bonus
+
+### `top-entity.vhd`
+
+Instantiates everything and wires it to the pins in Table 10.
+
+### `Nexys-A7-100T-Master.xdc`
+
+Uncomment the lines for the ports in Table 10 and rename them. `SSC_MAX(3)` is
+on SW8 at pin T8, which is a 1.8 V bank while everything else is LVCMOS33, so
+it either moves to another switch or gets LVCMOS18 on its own.
+
+## Two things that catch everyone
+
+**The divided clock is an enable.** Section 5.5 says every flip
+flop runs on the 100 MHz `CLOCK` and is qualified by a clock enable, so the
+divider produces a one cycle tick and that tick goes to `i_enable`. A register
+clocked by the divider output fails timing.
+
+**`LOAD_FSM` has to reach the state flip flops.** SW0 enables the machine, and
+`fsmControl` as declared has no enable port. Either add one and drive the two
+flip flops with `tick and LOAD_FSM`, or gate the tick at the top level before
+it goes in. The first is clearer.
