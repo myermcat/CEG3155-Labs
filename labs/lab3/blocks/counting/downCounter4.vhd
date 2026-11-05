@@ -3,6 +3,7 @@
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
+USE ieee.numeric_std.ALL;
 
 ENTITY downCounter4 IS
   PORT(
@@ -30,11 +31,6 @@ BEGIN
       END IF;
     END IF;
   END PROCESS;
-      
   o_count <= STD_LOGIC_VECTOR(count);
-END rtl;
-
-
-    o_count <= STD_LOGIC_VECTOR(count);
-
+        
 END rtl;
