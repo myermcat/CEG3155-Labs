@@ -35,7 +35,7 @@ BEGIN
       i_d        => i_select(0),
       i_enable   => '1',
       i_clock    => i_clock,
-      o_q        => prevSelect(0),
+      o_q        => prevSel(0),
       o_qBar     => OPEN
     );
 
@@ -45,7 +45,7 @@ BEGIN
       i_d        => i_select(1),
       i_enable   => '1',
       i_clock    => i_clock,
-      o_q        => prevSelect(1),
+      o_q        => prevSel(1),
       o_qBar     => OPEN
     );
 
