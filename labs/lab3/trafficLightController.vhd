@@ -22,7 +22,7 @@ END trafficLightController;
 ARCHITECTURE struct OF trafficLightController IS
   signal tick, sscs, fsmEnable, exp, reload : std_logic;
   signal sel : std_logic_vector(1 downto 0);
-  signal cnt, bcd1, bcd2 : std_logic_vector(3 downto 0);
+  signal count, bcd1, bcd2 : std_logic_vector(3 downto 0);
   signal mstlOneHot, sstlOneHot : std_logic_vector(2 downto 0);
 
   -- the yellow period is not programmable, so it lives here
@@ -61,40 +61,84 @@ ARCHITECTURE struct OF trafficLightController IS
     );
   end component;
 
+  component clk_div
+    port(
+      clock_25Mhz : in std_logic;
+      clock_1MHz, clock_100KHz, clock_10KHz,
+      clock_1KHz, clock_100Hz, clock_10Hz, clock_1Hz : out std_logic
+    );
+  end component;
+
+  component display_controller
+    port(
+      clk100 : in std_logic;
+      d0, d1, d2, d3 : in std_logic_vector(3 downto 0);
+      seg : out std_logic_vector(6 downto 0);
+      an  : out std_logic_vector(7 downto 0)
+    );
+  end component;
+
 BEGIN
 
   fsm: fsmControl
   port map(
-    i_clock => 
-    i_resetBar => 
-    i_enable => 
-    i_sscs =>
-    i_exp => 
-    o_mstl =>
-    o_sstl =>
-    o_select =>
+    i_clock => CLOCK,
+    i_resetBar => RESETBAR,
+    i_enable => fsmEnable,
+    i_sscs => sscs,
+    i_exp => exp,
+    o_mstl => mstlOneHot,
+    o_sstl => sstlOneHot,
+    o_select => sel
   );
 
   theCounter: countingBlock
   port map(
-
+    i_clock => CLOCK,
+    i_resetBar => RESETBAR,
+    i_reload => reload,
+    i_select => sel,
+    i_mscMax => MSC_MAX,
+    i_sscMax => SSC_MAX,
+    i_yc => YC,
+    o_exp => exp,
+    o_count => count
   );
 
   change: changeDetect
   port map(
-    i_clock =>
-    i_resetBar =>
-    i_select =>
-    o_changed =>
+    i_clock => CLOCK,
+    i_resetBar => RESETBAR,
+    i_select => sel,
+    o_changed => reload
   );
 
   bcdDec: bcdDecoder
   port map(
-    i_count =>
-    o_bcd1 =>
-    o_bcd2 =>
+    i_count => count,
+    o_bcd1 => bcd1,
+    o_bcd2 => bcd2
   );
   
+  divider: clk_div
+  port map(
+    clock_25Mhz => CLOCK,
+    clock_1MHz => open, clock_100KHz => open, clock_10KHz => open,
+    clock_1KHz => open, clock_100Hz => open, clock_10Hz => open,
+    clock_1Hz => tick
+  );
+
+  display: display_controller
+  port map(
+    clk100 => CLOCK,
+    d0 => bcd2, d1 => bcd1, d2 => "0000", d3 => "0000",
+    seg => SEG, an => AN
+  );
+
+  -- no debouncer, so the button reaches the machine as it is. a bouncy press
+  -- can step the machine more than once.
+  sscs <= CAPTEUR;
+
   -- the machine only steps on a tick, and only while the switch is up
   fsmEnable <= tick and LOAD_FSM;
 
