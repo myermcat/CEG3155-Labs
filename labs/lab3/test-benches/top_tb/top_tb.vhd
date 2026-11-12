@@ -36,19 +36,19 @@ begin
     resetBar <= '1'; loadFsm <= '1';
 
     -- main green, no car on the side street, so it holds
-    wait for 40 us;
+    wait for 2 us;
 
     -- a car arrives, and the ring runs: main yellow, side green, side yellow
     capteur <= '1';
-    wait for 120 us;
+    wait for 3 us;
 
     -- the car has gone, so the main street keeps its green
     capteur <= '0';
-    wait for 60 us;
+    wait for 2 us;
 
     -- a car arrives again, and the ring runs a second time
     capteur <= '1';
-    wait for 120 us;
+    wait for 3 us;
 
     wait;
   end process;
