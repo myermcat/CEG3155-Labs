@@ -10,7 +10,27 @@ ENTITY bcdDecoder IS
     o_bcd2  : OUT STD_LOGIC_VECTOR(3 downto 0)); -- right digit, the units
 END bcdDecoder;
 
-ARCHITECTURE rtl OF bcdDecoder IS
-BEGIN
+ARCHITECTURE structural OF bcdDecoder IS
+  SIGNAL a, b, c, d : STD_LOGIC;
 
-END rtl;
+BEGIN
+  a <= i_count(3);
+  b <= i_count(2);
+  c <= i_count(1);
+  d <= i_count(0);
+
+  o_bcd1(3) <= '0';
+  o_bcd1(2) <= '0';
+  o_bcd1(1) <= '0';
+  o_bcd1(0) <= a AND (b OR c);
+
+  o_bcd2(3) <= a AND NOT b AND NOT c;
+
+  o_bcd2(2) <= b AND (c OR NOT a);
+
+  o_bcd2(1) <= (c AND NOT a)
+           OR (a AND b AND NOT c);
+
+  o_bcd2(0) <= d;
+
+END structural;
