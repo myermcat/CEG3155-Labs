@@ -45,6 +45,10 @@ BEGIN
     -- Test process
     test_process: PROCESS
     BEGIN
+        -- the clock rises at 5 ns and every 10 ns after. starting 2 ns in and
+        -- spending 10 ns on each test keeps every change off an edge, so the
+        -- register never samples the new value in the instant it arrives
+        WAIT FOR 2 ns;
 
         -- Test 1: Reset
         i_resetBar <= '0';
@@ -57,7 +61,7 @@ BEGIN
 
         -- Release reset
         i_resetBar <= '1';
-        WAIT FOR 10 ns;
+        WAIT FOR 9 ns;
 
         -- Test 2: No state change (00 -> 00)
         ASSERT o_changed = '0'
@@ -73,7 +77,7 @@ BEGIN
             SEVERITY ERROR;
 
         -- Wait for next rising edge to store 01
-        WAIT FOR 10 ns;
+        WAIT FOR 9 ns;
 
         ASSERT o_changed = '0'
             REPORT "Test 4 failed: Change not cleared"
@@ -87,7 +91,7 @@ BEGIN
             REPORT "Test 5 failed: 01 to 10"
             SEVERITY ERROR;
 
-        WAIT FOR 10 ns;
+        WAIT FOR 9 ns;
 
         ASSERT o_changed = '0'
             REPORT "Test 6 failed: Change not cleared"
@@ -101,7 +105,7 @@ BEGIN
             REPORT "Test 7 failed: 10 to 11"
             SEVERITY ERROR;
 
-        WAIT FOR 10 ns;
+        WAIT FOR 9 ns;
 
         ASSERT o_changed = '0'
             REPORT "Test 8 failed: Change not cleared"
@@ -115,7 +119,7 @@ BEGIN
             REPORT "Test 9 failed: 11 to 00"
             SEVERITY ERROR;
 
-        WAIT FOR 10 ns;
+        WAIT FOR 9 ns;
 
         ASSERT o_changed = '0'
             REPORT "Test 10 failed: Change not cleared"
