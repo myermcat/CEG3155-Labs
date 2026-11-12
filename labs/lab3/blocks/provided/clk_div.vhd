@@ -45,11 +45,14 @@ END clk_div;
 
 ARCHITECTURE a OF clk_div IS
 
-	SIGNAL	count_1Mhz: STD_LOGIC_VECTOR(4 DOWNTO 0); 
-	SIGNAL	count_100Khz, count_10Khz, count_1Khz : STD_LOGIC_VECTOR(2 DOWNTO 0);
-	SIGNAL	count_100hz, count_10hz, count_1hz : STD_LOGIC_VECTOR(2 DOWNTO 0);
-	SIGNAL  clock_1Mhz_int, clock_100Khz_int, clock_10Khz_int, clock_1Khz_int: STD_LOGIC; 
-	SIGNAL	clock_100hz_int, clock_10Hz_int, clock_1Hz_int : STD_LOGIC;
+-- the counters start at zero. the file as given leaves them uninitialised, and
+-- the arithmetic it uses turns an uninitialised value into X and keeps it
+-- there, so in simulation no clock ever comes out. this is the only change.
+	SIGNAL	count_1Mhz: STD_LOGIC_VECTOR(4 DOWNTO 0) := (OTHERS => '0'); 
+	SIGNAL	count_100Khz, count_10Khz, count_1Khz : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
+	SIGNAL	count_100hz, count_10hz, count_1hz : STD_LOGIC_VECTOR(2 DOWNTO 0) := (OTHERS => '0');
+	SIGNAL  clock_1Mhz_int, clock_100Khz_int, clock_10Khz_int, clock_1Khz_int: STD_LOGIC := '0'; 
+	SIGNAL	clock_100hz_int, clock_10Hz_int, clock_1Hz_int : STD_LOGIC := '0';
 BEGIN
 	PROCESS 
 	BEGIN

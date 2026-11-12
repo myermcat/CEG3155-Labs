@@ -20,7 +20,7 @@ ENTITY trafficLightController IS
 END trafficLightController;
 
 ARCHITECTURE struct OF trafficLightController IS
-  signal tick, sscs, fsmEnable, exp, reload : std_logic;
+  signal tick, slow, slowDelayed, sscs, fsmEnable, exp, reload : std_logic;
   signal sel : std_logic_vector(1 downto 0);
   signal count, bcd1, bcd2 : std_logic_vector(3 downto 0);
   signal mstlOneHot, sstlOneHot : std_logic_vector(2 downto 0);
@@ -69,6 +69,13 @@ ARCHITECTURE struct OF trafficLightController IS
     );
   end component;
 
+  component dff
+    port(
+      i_resetBar, i_d, i_enable, i_clock : in std_logic;
+      o_q, o_qBar : out std_logic
+    );
+  end component;
+
   component display_controller
     port(
       clk100 : in std_logic;
@@ -100,7 +107,7 @@ BEGIN
     i_select => sel,
     i_mscMax => MSC_MAX,
     i_sscMax => SSC_MAX,
-    i_yc => YC,
+    i_yc => YC, -- constant
     o_exp => exp,
     o_count => count
   );
@@ -123,10 +130,25 @@ BEGIN
   divider: clk_div
   port map(
     clock_25Mhz => CLOCK,
-    clock_1MHz => open, clock_100KHz => open, clock_10KHz => open,
+    clock_1MHz => slow,          -- for the board, take clock_1Hz instead
+    clock_100KHz => open, clock_10KHz => open,
     clock_1KHz => open, clock_100Hz => open, clock_10Hz => open,
-    clock_1Hz => tick
+    clock_1Hz => open
   );
+
+  -- the divider gives square waves, so a flip flop on the fast clock catches
+  -- the rising edge of the slow one and turns it into a one cycle enable.
+  edgeReg: dff
+  port map(
+    i_resetBar => RESETBAR,
+    i_d => slow,
+    i_enable => '1',
+    i_clock => CLOCK,
+    o_q => slowDelayed,
+    o_qBar => open
+  );
+
+  tick <= slow and not(slowDelayed);
 
   display: display_controller
   port map(
