@@ -5,7 +5,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY trafficController IS
+ENTITY trafficLightController IS
   PORT( -- ports
     CLOCK     : IN  STD_LOGIC;                      -- E3, 100 MHz
     RESETBAR  : IN  STD_LOGIC;                      -- C12, CPU RESETN
@@ -17,9 +17,11 @@ ENTITY trafficController IS
     SSTL      : OUT STD_LOGIC_VECTOR(2 downto 0);   -- LD17
     SEG       : OUT STD_LOGIC_VECTOR(6 downto 0);   -- cathodes, active low
     AN        : OUT STD_LOGIC_VECTOR(7 downto 0));  -- anodes, active low
-END trafficController;
+END trafficLightController;
 
-ARCHITECTURE struct OF trafficController IS
+ARCHITECTURE struct OF trafficLightController IS
+  signal select, exp, 
+
 BEGIN
 
 END struct;

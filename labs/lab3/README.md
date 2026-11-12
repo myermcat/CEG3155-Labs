@@ -2,7 +2,7 @@
 
 | File | What it is |
 |---|---|
-| `top-entity.vhd` | the top entity, ports are the board pins in Table 10 |
+| `trafficLightController.vhd` | the top entity, ports are the board pins |
 | `fsm/fsmControl.vhd` | the state machine |
 | `fsm/dff.vhd` | one bit register, asynchronous reset, synchronous enable |
 | `blocks/counting/countingBlock.vhd` | times the three periods |
