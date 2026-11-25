@@ -85,12 +85,72 @@ ARCHITECTURE structural OF keyboardController IS
   SIGNAL enable        : STD_LOGIC;
   SIGNAL shift         : STD_LOGIC;
   SIGNAL c8, c10       : STD_LOGIC;
-  SIGNAL count         : STD_LOGIC_VECTOR(3 downto 0);
+  SIGNAL bcd1s, bcd2s  : STD_LOGIC_VECTOR(3 downto 0);
   SIGNAL scanCode      : STD_LOGIC_VECTOR(7 downto 0);
-  SIGNAL digit1        : STD_LOGIC_VECTOR(3 downto 0);
-  SIGNAL digit2        : STD_LOGIC_VECTOR(3 downto 0);
 
 BEGIN
   -- CPU RESETN is already active low, so it is the reset bar everything takes
+
+  dgtlF: digitalFilter
+    port map(
+      i_clock    => globalClock,
+      i_resetBar => globalReset,
+      i_raw      => keyboardClock,
+      o_filtered => filteredClock
+    );
+
+  fsm: fsmController
+    port map(
+      i_clock    => filteredClock,
+      i_resetBar => globalReset,
+      i_info     => keyboardData,
+      i_c8       => c8,
+      i_c10      => c10,
+      o_setCount => setCount,
+      o_enable   => enable,
+      o_shift    => shift
+    );
+
+  counter: counter4bit
+    port map(
+      i_clock    => filteredClock,
+      i_resetBar => globalReset,
+      i_set      => setCount,
+      i_enable   => enable,
+      o_count    => open,
+      o_c8       => c8,
+      o_c10      => c10
+    );
+
+  shR: shiftRegister
+    port map(
+      i_clock    => filteredClock,
+      i_resetBar => globalReset,
+      i_shift    => shift,
+      i_serial   => keyboardData,
+      o_value    => scanCode
+    );
+
+  bcd: bcdDecoder
+    port map(
+      i_scanCode => scanCode,
+      o_bcd1     => bcd1s,
+      o_bcd2     => bcd2s
+    );
+
+  display: display_controller
+  port map(
+      clk100      => globalClock,
+      d0          => bcd2s,
+      d1          => bcd1s,
+      d2          => "0000",
+      d3          => "0000",
+      seg         => SEG,
+      an          => AN
+  );
+
+  BCD1 <= bcd1s;
+  BCD2 <= bcd2s;
+  DP   <= '1';
 
 END structural;

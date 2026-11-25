@@ -87,10 +87,12 @@ BEGIN
     o_qBar     => OPEN
   );
 
-  -- the two questions the state machine asks
-  o_c8  <= count(3) AND NOT count(2) AND NOT count(1) AND NOT count(0);
+  -- the two questions the state machine asks. both fire one count early, since
+  -- the machine reads them on the same edge that the counter steps on: at the
+  -- eighth shift the count still reads seven
+  o_c8  <= NOT count(3) AND count(2) AND count(1) AND count(0);
 
-  o_c10 <= count(3) AND NOT count(2) AND count(1) AND NOT count(0);
+  o_c10 <= count(3) AND NOT count(2) AND NOT count(1) AND count(0);
 
   --output
   o_count <= count;
