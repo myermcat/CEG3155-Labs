@@ -12,7 +12,10 @@ ENTITY bcdDecoder IS
     o_bcd2     : OUT STD_LOGIC_VECTOR(3 downto 0));  -- right digit
 END bcdDecoder;
 
-ARCHITECTURE rtl OF bcdDecoder IS
+ARCHITECTURE structural OF bcdDecoder IS
 BEGIN
+  o_bcd1 <= i_scanCode(7 downto 4);
 
-END rtl;
+  o_bcd2 <= i_scanCode(3 downto 0);
+
+END structural;
