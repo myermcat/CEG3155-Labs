@@ -13,9 +13,6 @@ set_property -dict { PACKAGE_PIN C12 IOSTANDARD LVCMOS33 } [get_ports { globalRe
 set_property -dict { PACKAGE_PIN F4  IOSTANDARD LVCMOS33 } [get_ports { keyboardClock }]
 set_property -dict { PACKAGE_PIN B2  IOSTANDARD LVCMOS33 } [get_ports { keyboardData }]
 
-## sw0 picks the display mode
-set_property -dict { PACKAGE_PIN J15 IOSTANDARD LVCMOS33 } [get_ports { ModeSwitch }]
-
 ## high nibble on ld15 down to ld12
 set_property -dict { PACKAGE_PIN V11 IOSTANDARD LVCMOS33 } [get_ports { BCD1[3] }]
 set_property -dict { PACKAGE_PIN V12 IOSTANDARD LVCMOS33 } [get_ports { BCD1[2] }]
@@ -28,9 +25,8 @@ set_property -dict { PACKAGE_PIN U17 IOSTANDARD LVCMOS33 } [get_ports { BCD2[2] 
 set_property -dict { PACKAGE_PIN V17 IOSTANDARD LVCMOS33 } [get_ports { BCD2[1] }]
 set_property -dict { PACKAGE_PIN R18 IOSTANDARD LVCMOS33 } [get_ports { BCD2[0] }]
 
-## status leds, ld0 and ld1
-set_property -dict { PACKAGE_PIN H17 IOSTANDARD LVCMOS33 } [get_ports { LED_KEY_HELD }]
-set_property -dict { PACKAGE_PIN K15 IOSTANDARD LVCMOS33 } [get_ports { LED_CHORD }]
+## the handout's pin table also lists SW0, LD0 and LD1, but nothing in the
+## specification says what they do, so this design leaves them out
 
 ## seven segment cathodes, active low
 set_property -dict { PACKAGE_PIN T10 IOSTANDARD LVCMOS33 } [get_ports { SEG[0] }]
