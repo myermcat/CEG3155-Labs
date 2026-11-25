@@ -20,6 +20,41 @@ ENTITY fsmController IS
 END fsmController;
 
 ARCHITECTURE rtl OF fsmController IS
+signal Y2n, Y1n, y2, y1 : std_logic;
+
+component dff
+  port(
+    i_resetBar, i_d, i_enable, i_clk : in std_logic;
+    o_q, o_qBar : out std_logic
+  );
+end component;
+
 BEGIN
+  Y2n <= (not(y2) and not(y1) and i_info) or (y1 and not(i_c8));
+  Y1n <= (y1 and i_c8) or (y2 and not(i_c10));
+
+  y2_dff: dff
+    port map(
+      i_resetBar => i_resetBar;
+      i_d => Y2n;
+      i_enable => 
+      i_clk => i_clock;
+      o_q => y2;
+      o_qBar => open 
+    );
+  
+  y1_dff: dff
+    port map(
+      i_resetBar => i_resetBar;
+      i_d => Y1n;
+      i_enable => 
+      i_clk => i_clock;
+      o_q => y1;
+      o_qBar => open 
+    );
+  
+  o_setCount <=
+  o_enable <=
+  o_shift <= 
 
 END rtl;
