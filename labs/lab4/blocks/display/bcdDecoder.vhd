@@ -5,14 +5,14 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY decodeurBCD IS
+ENTITY bcdDecoder IS
   PORT( -- ports
     i_scanCode : IN  STD_LOGIC_VECTOR(7 downto 0);
     o_bcd1     : OUT STD_LOGIC_VECTOR(3 downto 0);   -- left digit
     o_bcd2     : OUT STD_LOGIC_VECTOR(3 downto 0));  -- right digit
-END decodeurBCD;
+END bcdDecoder;
 
-ARCHITECTURE rtl OF decodeurBCD IS
+ARCHITECTURE rtl OF bcdDecoder IS
 BEGIN
 
 END rtl;

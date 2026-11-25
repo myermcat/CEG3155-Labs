@@ -6,7 +6,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY compteur4bit IS
+ENTITY counter4bit IS
   PORT( -- ports
     i_clock    : IN  STD_LOGIC;
     i_resetBar : IN  STD_LOGIC;
@@ -15,9 +15,9 @@ ENTITY compteur4bit IS
     o_count    : OUT STD_LOGIC_VECTOR(3 downto 0);
     o_c8       : OUT STD_LOGIC;
     o_c10      : OUT STD_LOGIC);
-END compteur4bit;
+END counter4bit;
 
-ARCHITECTURE rtl OF compteur4bit IS
+ARCHITECTURE rtl OF counter4bit IS
 BEGIN
 
 END rtl;

@@ -10,15 +10,15 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
 
-ENTITY filtre_digitale IS
+ENTITY digitalFilter IS
   PORT( -- ports
-    i_clock    : IN  STD_LOGIC;   -- HorlogeG, the 100 MHz global clock
+    i_clock    : IN  STD_LOGIC;   -- globalClock, the 100 MHz global clock
     i_resetBar : IN  STD_LOGIC;
-    i_raw      : IN  STD_LOGIC;   -- HorlogeClavier, straight off the pin
+    i_raw      : IN  STD_LOGIC;   -- keyboardClock, straight off the pin
     o_filtered : OUT STD_LOGIC);  -- clk_filtrée
-END filtre_digitale;
+END digitalFilter;
 
-ARCHITECTURE rtl OF filtre_digitale IS
+ARCHITECTURE rtl OF digitalFilter IS
 BEGIN
 
 END rtl;
