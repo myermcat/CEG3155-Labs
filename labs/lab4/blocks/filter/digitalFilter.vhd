@@ -43,13 +43,16 @@ shR: shiftRegister
   port map(
     i_clock => i_clock,
     i_resetBar => i_resetBar,
-    i_shift => '1';
+    i_shift => '1',
     i_serial => i_raw,
     o_value => shR_out
   );
 
-and1 <= and shR_out; -- s
-and0 <= not(and shR_out); -- r
+and1 <= shR_out(7) and shR_out(6) and shR_out(5) and shR_out(4)
+    and shR_out(3) and shR_out(2) and shR_out(1) and shR_out(0); -- s
+
+and0 <= not(shR_out(7) or shR_out(6) or shR_out(5) or shR_out(4)
+         or shR_out(3) or shR_out(2) or shR_out(1) or shR_out(0)); -- r
 
 d <= (not(and1) and not(and0) and d_prev) or and1;
 
@@ -63,6 +66,6 @@ sr_ff: dff
     o_qBar => open
   );
 
-  o_filtered <= prev_d;
+  o_filtered <= d_prev;
 
 END rtl;
