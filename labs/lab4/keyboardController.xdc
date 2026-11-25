@@ -48,5 +48,3 @@ set_property -dict { PACKAGE_PIN T14 IOSTANDARD LVCMOS33 } [get_ports { AN[5] }]
 set_property -dict { PACKAGE_PIN K2  IOSTANDARD LVCMOS33 } [get_ports { AN[6] }]
 set_property -dict { PACKAGE_PIN U13 IOSTANDARD LVCMOS33 } [get_ports { AN[7] }]
 
-## the filter has a deliberate feedback loop in it
-set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets -hierarchical -filter { NAME =~ "*filter*" }]

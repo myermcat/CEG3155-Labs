@@ -4,8 +4,10 @@
 -- so the filtered clock only moves after the raw one has held a level for
 -- eighty nanoseconds, and a reflection shorter than that never gets through.
 --
--- the latch is a deliberate combinational loop. vivado refuses it until the
--- constraints file carries ALLOW_COMBINATORIAL_LOOPS on this net.
+-- figure 13 draws the latch as a gate loop. we register it off the global clock
+-- instead, so there is no combinational loop and no waiver to ask vivado for.
+-- the cost is that the filtered clock moves one global period after the eight
+-- samples agree.
 
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
@@ -19,6 +21,48 @@ ENTITY digitalFilter IS
 END digitalFilter;
 
 ARCHITECTURE rtl OF digitalFilter IS
+signal and1, and0, d, d_prev : std_logic;
+signal shR_out : std_logic_vector(7 downto 0);
+
+component dff
+  port(
+    i_resetBar, i_d, i_enable, i_clock : in std_logic;
+    o_q, o_qBar : out std_logic);
+end component;
+
+component shiftRegister
+  port(
+    i_clock, i_resetBar, i_shift, i_serial : in std_logic;
+    o_value : out std_logic_vector(7 downto 0)
+  );
+end component;
+
 BEGIN
+
+shR: shiftRegister
+  port map(
+    i_clock => i_clock,
+    i_resetBar => i_resetBar,
+    i_shift => '1';
+    i_serial => i_raw,
+    o_value => shR_out
+  );
+
+and1 <= and shR_out; -- s
+and0 <= not(and shR_out); -- r
+
+d <= (not(and1) and not(and0) and d_prev) or and1;
+
+sr_ff: dff
+  port map(
+    i_resetBar => i_resetBar,
+    i_d => d,
+    i_enable => '1',
+    i_clock => i_clock,
+    o_q => d_prev,
+    o_qBar => open
+  );
+
+  o_filtered <= prev_d;
 
 END rtl;
